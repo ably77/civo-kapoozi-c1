@@ -6,9 +6,8 @@
 #
 # please use `kubectl config rename-contexts <current_context> <target_context>` to
 # rename your context if necessary
-LICENSE_KEY=${1:-""}
-cluster_context=${2:-mgmt}
-environment_overlay=${3:-prod} # prod, qa, dev
+cluster_context=${1:-cluster1}
+environment_overlay=${2:-prod} # prod, qa, dev
 
 # check to see if defined contexts exist
 if [[ $(kubectl config get-contexts | grep ${cluster_context}) == "" ]] ; then
@@ -17,16 +16,13 @@ if [[ $(kubectl config get-contexts | grep ${cluster_context}) == "" ]] ; then
   exit 1;
 fi
 
-# create license
-./tools/create-license.sh "${LICENSE_KEY}" "${cluster_context}"
-
-# install argocd
-cd bootstrap-argocd
-./install-argocd.sh insecure-rootpath ${cluster_context}
-cd ..
-
-# wait for argo cluster rollout
-./tools/wait-for-rollout.sh deployment argocd-server argocd 20 ${cluster_context}
+## install argocd
+#cd bootstrap-argocd
+#./install-argocd.sh insecure-rootpath ${cluster_context}
+#cd ..
+#
+## wait for argo cluster rollout
+#./tools/wait-for-rollout.sh deployment argocd-server argocd 20 ${cluster_context}
 
 # deploy app of app waves
 for i in $(seq $(ls environment | wc -l)); do 

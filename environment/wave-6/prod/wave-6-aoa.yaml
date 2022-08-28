@@ -8,7 +8,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/ably77/civo-kapoozi/
+    repoURL: https://github.com/ably77/civo-kapoozi-c1/
     targetRevision: HEAD
     path: environment/wave-6/prod/active/
   destination:
