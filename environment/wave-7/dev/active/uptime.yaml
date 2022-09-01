@@ -16,6 +16,7 @@ metadata:
     app.kubernetes.io/name: uptime-kuma
     app.kubernetes.io/version: 1.17.1
     helm.sh/chart: uptime-kuma-1.4.2
+    expose: "true"
   annotations:
 spec:
   type: ClusterIP
