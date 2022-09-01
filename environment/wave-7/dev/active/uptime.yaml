@@ -55,6 +55,8 @@ spec:
       labels:
         app.kubernetes.io/name: uptime-kuma
         app.kubernetes.io/instance: uptime-kuma
+      annotations:
+        proxy.istio.io/config: '{ "holdApplicationUntilProxyStarts": true }'
     spec:
       
       serviceAccountName: uptime
