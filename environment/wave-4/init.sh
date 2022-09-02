@@ -11,7 +11,7 @@ echo "deploy and register gloo-mesh agent and addons"
 cluster_context="cluster1"
 # need to call our mgmt server context to discover LB address
 mgmt_context="mgmt"
-gloo_mesh_version="2.1.0-beta22"
+gloo_mesh_version="2.1.0-beta24"
 
 # discover gloo mesh endpoint with kubectl
 until [ "${SVC}" != "" ]; do
