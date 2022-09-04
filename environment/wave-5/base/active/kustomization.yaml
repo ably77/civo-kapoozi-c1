@@ -6,4 +6,5 @@ kind: Kustomization
 resources:
 - bookinfo-backends-dyaml.yaml
 - bookinfo-frontends-dyaml.yaml
+- bombardier.yaml
 
