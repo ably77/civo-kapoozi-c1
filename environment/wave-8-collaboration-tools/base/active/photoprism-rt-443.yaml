@@ -1,0 +1,27 @@
+apiVersion: networking.gloo.solo.io/v2
+kind: RouteTable
+metadata:
+  name: photoprism-rt-443
+  namespace: collaboration-tools
+  labels:
+    expose: "true"
+spec:
+  hosts:
+    - 'photoprism.kapoozi.com'
+  virtualGateways:
+    - name: cluster1-north-south-gw-443
+      namespace: istio-gateways
+      cluster: mgmt
+  workloadSelectors: []
+  http:
+    - name: photoprism
+      matchers:
+      - uri:
+          prefix: /
+      forwardTo:
+        destinations:
+        - ref:
+            name: photoprism
+            namespace: collaboration-tools
+          port:
+            number: 2342
