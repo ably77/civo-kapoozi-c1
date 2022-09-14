@@ -57,8 +57,7 @@ spec:
         app.kubernetes.io/instance: uptime
       annotations:
         proxy.istio.io/config: '{ "holdApplicationUntilProxyStarts": true }'
-    spec:
-      
+    spec:  
       serviceAccountName: uptime
       automountServiceAccountToken: true
       dnsPolicy: ClusterFirst
@@ -66,6 +65,10 @@ spec:
       containers:
         - name: uptime
           image: "louislam/uptime-kuma:1.17.1"
+          resources:
+            requests:
+              memory: "150Mi"
+              cpu: "20m"
           imagePullPolicy: IfNotPresent
           env:
             - name: TZ
