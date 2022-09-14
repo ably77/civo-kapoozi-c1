@@ -89,6 +89,10 @@ spec:
     spec:
       containers:
       - image: us-central1-docker.pkg.dev/solo-test-236622/jmunozro/examples-bookinfo-details-v1:1.16.2
+        resources:
+          requests:
+            memory: "70Mi"
+            cpu: "10m"
         imagePullPolicy: IfNotPresent
         name: details
         ports:
@@ -119,6 +123,10 @@ spec:
     spec:
       containers:
       - image: us-central1-docker.pkg.dev/solo-test-236622/jmunozro/examples-bookinfo-ratings-v1:1.16.2
+        resources:
+          requests:
+            memory: "75Mi"
+            cpu: "10m"
         imagePullPolicy: IfNotPresent
         name: ratings
         ports:
@@ -154,6 +162,10 @@ spec:
         - name: CLUSTER_NAME
           value: cluster1
         image: us-central1-docker.pkg.dev/solo-test-236622/jmunozro/examples-bookinfo-reviews-v1:1.16.2
+        resources:
+          requests:
+            memory: "150Mi"
+            cpu: "15m"
         imagePullPolicy: IfNotPresent
         name: reviews
         ports:
@@ -199,6 +211,10 @@ spec:
         - name: CLUSTER_NAME
           value: cluster1
         image: us-central1-docker.pkg.dev/solo-test-236622/jmunozro/examples-bookinfo-reviews-v2:1.16.2
+        resources:
+          requests:
+            memory: "170Mi"
+            cpu: "10m"
         imagePullPolicy: IfNotPresent
         name: reviews
         ports:
