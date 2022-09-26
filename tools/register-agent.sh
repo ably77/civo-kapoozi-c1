@@ -3,7 +3,7 @@
 #
 # please use `kubectl config rename-contexts <current_context> <target_context>` to
 # rename your context if necessary
-gloo_mesh_version=${1:-2.1.0-beta24}
+gloo_mesh_version=${1:-2.1.0-beta27}
 cluster_context=${2:-cluster1}
 # need to call our mgmt server context to discover LB address
 mgmt_context=${3:-mgmt}
@@ -14,6 +14,29 @@ until [ "${SVC}" != "" ]; do
   echo waiting for gloo mesh management server LoadBalancer IP to be detected
   sleep 2
 done
+
+# apply gloo-mesh CRDs argo application
+kubectl apply --context ${cluster_context} -f- <<EOF
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: gloo-mesh-crds
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/solo-io/gitops-library/
+    targetRevision: HEAD
+    path: gloo-mesh/gloo-mesh-crds/${gloo_mesh_version}
+  destination:
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+EOF
 
 kubectl apply --context ${mgmt_context} -f- <<EOF
 apiVersion: admin.gloo.solo.io/v2
@@ -41,6 +64,7 @@ spec:
     targetRevision: ${gloo_mesh_version}
     chart: gloo-mesh-agent
     helm:
+      skipCrds: true
       valueFiles:
         - values.yaml
       parameters:
