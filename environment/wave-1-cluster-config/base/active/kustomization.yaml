@@ -7,7 +7,6 @@ resources:
 - bookinfo-backends-ns.yaml
 - bookinfo-frontends-ns.yaml
 - cert-manager-cacerts.yaml
-- cert-manager-ns.yaml
 - collaboration-tools-ns.yaml
 - gloo-mesh-addons-ns.yaml
 - gloo-mesh-ns.yaml
