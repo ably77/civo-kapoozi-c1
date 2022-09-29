@@ -6,8 +6,8 @@
 #
 # please use `kubectl config rename-contexts <current_context> <target_context>` to
 # rename your context if necessary
-gloo_mesh_version=${1:-2.1.0-beta24}
-environment_overlay=${2:-prod} # prod, qa, dev, base
+gloo_mesh_version=${1:-2.1.0-beta27}
+environment_overlay=${2:-""} # prod, qa, dev, base
 cluster_context=${3:-cluster1}
 mgmt_context=${4:-mgmt}
 
@@ -19,6 +19,14 @@ if [[ $(kubectl config get-contexts | grep ${cluster_context}) == "" ]] || [[ $(
   exit 1;
 fi
 
+# check to see if environment overlay variable was passed through, if not prompt for it
+if [[ ${environment_overlay} == "" ]]
+  then
+    # provide environment overlay
+    echo "Please provide the environment overlay to use (i.e. prod, dev, qa):"
+    read environment_overlay
+fi
+
 # install argocd
 cd bootstrap-argocd
 ./install-argocd.sh insecure-rootpath ${cluster_context}
@@ -28,7 +36,7 @@ cd ..
 ./tools/wait-for-rollout.sh deployment argocd-server argocd 20 ${cluster_context}
 
 # deploy app of app waves
-for i in $(ls -l environment/ | grep -v ^total | awk '{print $9}'); do 
+for i in $(ls environment | sort -n); do 
   echo "starting ${i}"
   # run init script if it exists
   [[ -f "environment/${i}/init.sh" ]] && ./environment/${i}/init.sh ${i} ${environment_overlay}
