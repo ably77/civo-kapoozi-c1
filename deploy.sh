@@ -6,10 +6,13 @@
 #
 # please use `kubectl config rename-contexts <current_context> <target_context>` to
 # rename your context if necessary
-gloo_mesh_version=${1:-2.1.0-beta27}
+gloo_mesh_version=${1:-""}
 environment_overlay=${2:-""} # prod, qa, dev, base
 cluster_context=${3:-cluster1}
 mgmt_context=${4:-mgmt}
+github_username=${5:-ably77}
+repo_name=${6:-civo-kapoozi-c1}
+target_branch=${7:-HEAD}
 
 
 # check to see if defined contexts exist
@@ -39,7 +42,7 @@ cd ..
 for i in $(ls environment | sort -n); do 
   echo "starting ${i}"
   # run init script if it exists
-  [[ -f "environment/${i}/init.sh" ]] && ./environment/${i}/init.sh ${i} ${environment_overlay}
+  [[ -f "environment/${i}/init.sh" ]] && ./environment/${i}/init.sh ${i} ${environment_overlay} ${cluster_context} ${github_username} ${repo_name} ${target_branch}
   # deploy aoa wave
   ./tools/configure-wave.sh ${i} ${environment_overlay} ${cluster_context}
   # run test script if it exists
