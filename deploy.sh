@@ -1,19 +1,9 @@
 #!/bin/bash
 #set -e
 
-# replace the parameter below with your designated cluster context
-# note that the character '_' is an invalid value
-#
-# please use `kubectl config rename-contexts <current_context> <target_context>` to
-# rename your context if necessary
-gloo_mesh_version=${1:-""}
-environment_overlay=${2:-""} # prod, qa, dev, base
-cluster_context=${3:-cluster1}
-mgmt_context=${4:-mgmt}
-github_username=${5:-ably77}
-repo_name=${6:-civo-kapoozi-c1}
-target_branch=${7:-HEAD}
-
+# source vars from root directory vars.txt
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+source $SCRIPT_DIR/vars.txt
 
 # check to see if defined contexts exist
 if [[ $(kubectl config get-contexts | grep ${cluster_context}) == "" ]] || [[ $(kubectl config get-contexts | grep ${mgmt_context}) == "" ]]; then
@@ -42,15 +32,15 @@ cd ..
 for i in $(ls environment | sort -n); do 
   echo "starting ${i}"
   # run init script if it exists
-  [[ -f "environment/${i}/init.sh" ]] && ./environment/${i}/init.sh ${i} ${environment_overlay} ${cluster_context} ${github_username} ${repo_name} ${target_branch}
+  [[ -f "environment/${i}/init.sh" ]] && ./environment/${i}/init.sh 
   # deploy aoa wave
-  ./tools/configure-wave.sh ${i} ${environment_overlay} ${cluster_context}
+  ./tools/configure-wave.sh ${i} ${environment_overlay} ${cluster_context} ${github_username} ${repo_name} ${target_branch}
   # run test script if it exists
   [[ -f "environment/${i}/test.sh" ]] && ./environment/${i}/test.sh
 done
 
 # register agent
-./tools/register-agent.sh ${gloo_mesh_version} ${cluster_context} ${mgmt_context}
+./tools/register-agent.sh ${gloo_mesh_version}
 
 echo "END."
 

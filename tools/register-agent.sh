@@ -1,12 +1,17 @@
-# replace the parameter below with your designated cluster context
-# note that the character '_' is an invalid value
-#
-# please use `kubectl config rename-contexts <current_context> <target_context>` to
-# rename your context if necessary
-gloo_mesh_version=${1:-2.1.0-beta27}
-cluster_context=${2:-cluster1}
-# need to call our mgmt server context to discover LB address
-mgmt_context=${3:-mgmt}
+#!/bin/bash
+#set -e
+
+# source vars from root directory vars.txt
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+source $SCRIPT_DIR/../vars.txt
+
+# check to see if gloo_mesh_version variable was passed through, if not prompt for it
+if [[ ${gloo_mesh_version} == "" ]]
+  then
+    # provide gloo_mesh_version variable
+    echo "Please provide the gloo_mesh_version to use (i.e. 2.1.0-beta27):"
+    read gloo_mesh_version
+fi
 
 # discover gloo mesh endpoint with kubectl
 until [ "${SVC}" != "" ]; do
@@ -15,35 +20,14 @@ until [ "${SVC}" != "" ]; do
   sleep 2
 done
 
-# apply gloo-mesh CRDs argo application
-kubectl apply --context ${cluster_context} -f- <<EOF
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: gloo-mesh-crds
-  namespace: argocd
-  finalizers:
-  - resources-finalizer.argocd.argoproj.io
-spec:
-  project: default
-  source:
-    repoURL: https://github.com/solo-io/gitops-library/
-    targetRevision: HEAD
-    path: gloo-mesh/gloo-mesh-crds/${gloo_mesh_version}
-  destination:
-    server: https://kubernetes.default.svc
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-EOF
-
 kubectl apply --context ${mgmt_context} -f- <<EOF
 apiVersion: admin.gloo.solo.io/v2
 kind: KubernetesCluster
 metadata:
-  name: ${cluster_context}
+  name: cluster1
   namespace: gloo-mesh
+  labels:
+    roottrust: shared
 spec:
   clusterDomain: cluster.local
 EOF
@@ -53,7 +37,7 @@ kubectl apply --context ${cluster_context} -f- <<EOF
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: gm-enterprise-agent-${cluster_context}
+  name: gm-enterprise-agent-cluster1
   namespace: argocd
 spec:
   destination:
@@ -64,18 +48,17 @@ spec:
     targetRevision: ${gloo_mesh_version}
     chart: gloo-mesh-agent
     helm:
-      skipCrds: true
       valueFiles:
         - values.yaml
       parameters:
         - name: cluster
-          value: '${cluster_context}'
+          value: 'cluster1'
         - name: relay.serverAddress
           value: '${SVC}:9900'
         - name: relay.authority
           value: 'gloo-mesh-mgmt-server.gloo-mesh'
         - name: relay.clientTlsSecret.name
-          value: 'gloo-mesh-agent-${cluster_context}-tls-cert'
+          value: 'gloo-mesh-agent-cluster1-tls-cert'
         - name: relay.clientTlsSecret.namespace
           value: 'gloo-mesh'
         - name: relay.rootTlsSecret.name
