@@ -43,7 +43,7 @@ metadata:
     helm.sh/chart: uptime-1.4.2
 spec:
   revisionHistoryLimit: 3
-  replicas: 2
+  replicas: 1
   strategy:
     type: Recreate
   selector:
