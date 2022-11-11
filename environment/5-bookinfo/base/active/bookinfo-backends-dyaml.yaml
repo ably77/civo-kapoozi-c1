@@ -267,7 +267,7 @@ spec:
         - name: LOG_DIR
           value: /tmp/logs
         - name: CLUSTER_NAME
-          value: cluster2
+          value: cluster1
         image: us-central1-docker.pkg.dev/solo-test-236622/jmunozro/examples-bookinfo-reviews-v3:1.16.2
         imagePullPolicy: IfNotPresent
         name: reviews
