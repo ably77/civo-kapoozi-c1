@@ -2,16 +2,8 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-- allownothing-accesspolicy.yaml
 - backend-apis-ns.yaml
-- backend-apis-team-workspace.yaml
-- backend-apis-team-workspacesettings.yaml
-- backend-apis.yaml
-- frontend-api-accesspolicy.yaml
-- in-namespace-accesspolicy.yaml
-- web-team-workspace.yaml
-- web-team-workspacesettings.yaml
+- cluster1-backend-apis.yaml
+- cluster1-web-ui.yaml
 - web-ui-ns.yaml
-- web-ui-rt-443.yaml
-- web-ui.yaml
 
