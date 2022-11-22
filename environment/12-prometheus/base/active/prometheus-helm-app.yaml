@@ -2722,6 +2722,10 @@ spec:
             ## port to 2379 and allow etcd scraping provided it is running on all Kubernetes master nodes
             ##
             additionalScrapeConfigs:
+            scrape_configs:
+            - job_name: 'kube-state-metrics'
+              static_configs:
+                - targets: ['prometheus-helm-kube-state-metrics.prometheus.svc.cluster.local:8080']
             - job_name: prometheus
               static_configs:
               - targets:
