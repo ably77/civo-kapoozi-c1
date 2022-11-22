@@ -3726,7 +3726,8 @@ spec:
   project: default
   syncPolicy:
     automated: {}
-    syncOptions: []
+    syncOptions:
+    - Replace=true
     retry:
       limit: 2
       backoff:
