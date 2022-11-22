@@ -4,12 +4,12 @@ kind: Kustomization
 
 # list of resources to be Applied
 resources:
-- grafana.yaml
+#- grafana.yaml
 - istio-base.yaml
 - istio-eastwestgateway.yaml
 - istio-ingressgateway.yaml
 - istiod-1-13.yaml
 - kiali.yaml
-- prometheus.yaml
+#- prometheus.yaml
 - tls-secret-cert.yaml
 
