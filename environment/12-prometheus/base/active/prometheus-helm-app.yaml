@@ -796,10 +796,6 @@ spec:
             # - secretName: grafana-general-tls
             #   hosts:
             #   - grafana.example.com
-          
-          grafana.ini:
-            server:
-              root_url: %(protocol)s://%(domain)s:%(http_port)s/grafana-c1/
 
           sidecar:
             dashboards:
