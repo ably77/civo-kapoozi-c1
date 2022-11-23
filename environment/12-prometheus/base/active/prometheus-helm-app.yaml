@@ -14,7 +14,7 @@ spec:
     targetRevision: 42.0.0
     chart: kube-prometheus-stack
     helm:
-      skipCrds: true
+      skipCrds: false
       values: |
         # Default values for kube-prometheus-stack.
         # This is a YAML-formatted file.
@@ -2725,7 +2725,6 @@ spec:
             ## port to 2379 and allow etcd scraping provided it is running on all Kubernetes master nodes
             ##
             additionalScrapeConfigs:
-            scrape_configs:
             - job_name: 'kube-state-metrics'
               static_configs:
                 - targets: ['prometheus-helm-kube-state-metrics.prometheus.svc.cluster.local:8080']
@@ -3735,7 +3734,8 @@ spec:
   project: default
   syncPolicy:
     automated: {}
-    syncOptions: []
+    syncOptions:
+    - Replace=true
     retry:
       limit: 2
       backoff:
