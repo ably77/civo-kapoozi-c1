@@ -5,6 +5,7 @@ resources:
 - envoy-podmonitor.yaml
 - istio-dashboards-cm.yaml
 - istio-servicemonitor.yaml
+- prometheus-crds.yaml
 - prometheus-helm-app.yaml
 - prometheus-ns.yaml
 

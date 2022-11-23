@@ -3,6 +3,8 @@ kind: Application
 metadata:
   name: prometheus-helm
   namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-9"
 spec:
   destination:
     namespace: prometheus
@@ -12,6 +14,7 @@ spec:
     targetRevision: 42.0.0
     chart: kube-prometheus-stack
     helm:
+      skipCrds: true
       values: |
         # Default values for kube-prometheus-stack.
         # This is a YAML-formatted file.
