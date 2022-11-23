@@ -6,6 +6,8 @@ metadata:
   labels:
     monitoring: istio-proxies
     release: prom
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
 spec:
   selector:
     matchExpressions:

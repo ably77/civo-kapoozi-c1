@@ -3,6 +3,8 @@ kind: ServiceMonitor
 metadata:
   name: istio-component-monitor
   namespace: prometheus
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
   labels:
     monitoring: istio-components
     release: prom
