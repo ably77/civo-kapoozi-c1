@@ -761,14 +761,14 @@ spec:
 
           ## Deploy default dashboards
           ##
-          defaultDashboardsEnabled: false
+          defaultDashboardsEnabled: true
 
           ## Timezone for the default dashboards
           ## Other options are: browser or a specific timezone, i.e. Europe/Luxembourg
           ##
           defaultDashboardsTimezone: utc
 
-          adminPassword: prom-operator
+          adminPassword: solodolo
 
           rbac:
             ## If true, Grafana PSPs will be created
