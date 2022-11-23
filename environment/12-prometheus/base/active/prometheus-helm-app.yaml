@@ -735,6 +735,13 @@ spec:
           enabled: true
           namespaceOverride: ""
 
+          grafana.ini:
+            server:
+              domain: grafana.kapoozi.com
+              root_url: "%(protocol)s://%(domain)s/cluster1"
+              #root_url: https://mysb.grafanasite.com/grafana/
+              serve_from_sub_path: true
+
           ## ForceDeployDatasources Create datasource configmap even if grafana deployment has been disabled
           ##
           forceDeployDatasources: false
