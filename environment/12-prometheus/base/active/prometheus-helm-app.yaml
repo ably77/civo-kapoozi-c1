@@ -741,6 +741,15 @@ spec:
               root_url: "%(protocol)s://%(domain)s/cluster1"
               #root_url: https://mysb.grafanasite.com/grafana/
               serve_from_sub_path: true
+          
+          ## Pod Annotations
+          podAnnotations:
+            proxy.istio.io/config: '{ "holdApplicationUntilProxyStarts": true }'
+          
+          ## Pod Labels
+          podLabels:
+            sidecar.istio.io/inject: "true"
+            istio.io/rev: 1-13
 
           ## ForceDeployDatasources Create datasource configmap even if grafana deployment has been disabled
           ##
