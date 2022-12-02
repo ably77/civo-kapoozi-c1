@@ -127,7 +127,7 @@ spec:
           #   # using intel-gpu-plugin (https://github.com/intel/intel-device-plugins-for-kubernetes)
           #   gpu.intel.com/i915: 1
           #   memory: 4096Mi         
-    syncPolicy:
-      automated:
-        prune: true
-      selfHeal: true
+  syncPolicy:
+    automated:
+      prune: true
+    selfHeal: true
