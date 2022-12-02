@@ -86,7 +86,7 @@ spec:
             enabled: false
         
         # -- Enable devices to be discoverable
-        hostNetwork: true
+        hostNetwork: false
         
         # -- Configure persistence settings for the chart under this key.
         # @default -- See values.yaml
@@ -115,13 +115,13 @@ spec:
           # - 109
         
         # -- Configure the resource requests and/or limits for the Pod
-        resources:
-           requests:
+        resources: {}
+          # requests:
           #   # Hardware acceleration using an Intel iGPU w/ QuickSync and
           #   # using intel-gpu-plugin (https://github.com/intel/intel-device-plugins-for-kubernetes)
           #   gpu.intel.com/i915: 1
-             cpu: 200m
-             memory: 256Mi
+          #   cpu: 200m
+          #   memory: 256Mi
           # limits:
           #   # Hardware acceleration using an Intel iGPU w/ QuickSync and
           #   # using intel-gpu-plugin (https://github.com/intel/intel-device-plugins-for-kubernetes)
