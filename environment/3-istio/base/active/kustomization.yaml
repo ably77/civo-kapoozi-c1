@@ -9,7 +9,7 @@ resources:
 - istio-eastwestgateway.yaml
 - istio-ingressgateway.yaml
 - istiod-1-13.yaml
-- kiali.yaml
+#- kiali.yaml
 #- prometheus.yaml
 - tls-secret-cert.yaml
 
