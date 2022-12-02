@@ -1,4 +1,4 @@
 #!/bin/bash
 
 echo "wave description:"
-echo "deploy prometheus helm chart"
+echo "deploy plex helm chart"
