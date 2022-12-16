@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: numaflow-server
+  namespace: numaflow-system
+spec:
+  type: ClusterIP
+  ports:
+  - name: http-nf
+    targetPort: 8080
+    port: 8080
+    protocol: TCP
+  selector:
+    app.kubernetes.io/part-of: numaflow
+    app.kubernetes.io/component: numaflow-ux

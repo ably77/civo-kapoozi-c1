@@ -1,0 +1,45 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - crds/full
+  - numaflow-sa.yaml
+  - numaflow-server-sa.yaml
+  - controller-manager
+  - numaflow-server
+  - namespaces
+
+#images:
+#  - name: quay.io/ably77/numaflow
+#    newTag: ly-2
+
+#patchesStrategicMerge:
+#  - |-
+#    apiVersion: apps/v1
+#    kind: Deployment
+#    metadata:
+#      name: numaflow-controller
+#      namespace: numaflow-system
+#    spec:
+#      template:
+#        spec:
+#          containers:
+#            - name: controller-manager
+#              env:
+#                - name: NUMAFLOW_IMAGE
+#                  value: quay.io/ably77/numaflow:ly-2
+#  - |-
+#    apiVersion: apps/v1
+#    kind: Deployment
+#    metadata:
+#      name: numaflow-server
+#      namespace: numaflow-system
+#    spec:
+#      template:
+#        spec:
+#          containers:
+#            - name: main
+#              image: quay.io/ably77/numaflow:ly-2
+#              args: 
+#              - "server"
+
